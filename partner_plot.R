@@ -51,9 +51,38 @@ org_graph + geom_point(size = 3) +
 ggsave("partnership_orgs.png", plot = last_plot(), width = 250, height = 150, units = "mm", dpi = 400)
 
 
-bar <- geom
 
 
+#--------------------
+#-Barplot
+#-------------------
+bar <- org_sheet %>% ggplot(aes(org_tier, data_relevance, colour = org_tier, label = org_name)) +
+  labs(title = "EAA Partnership Organisation Map", x = "Org Tier", y = "Data Relevance", 
+       subtitle = "EAA Data Partnership Targets") +
+  geom_point(size = 20, alpha = 0.3)+
+  geom_label_repel(nudge_x = 0.25, nudge_y = 0.2, show.legend = FALSE,
+                    label.size = .5,
+                    box.padding = 0.5,
+                    force = 2) +
+                    scale_color_brewer(palette = "Spectral", name = "Organisation Tier",
+                                        labels = c("Priority", "Desirable", "Secondary", "Invalid")) +
+                     theme(plot.title = element_text(family = 'Arial', 
+                                                     size = 30, 
+                                                     vjust = 0,
+                                                     hjust = 0,
+                                                     colour = 'black'),
+                           plot.subtitle = element_text(family = 'Arial',
+                                                        size = 16),
+                           panel.background = element_rect(fill = 'white'),
+                           plot.background = element_rect(fill = 'white'),
+                           panel.grid = element_blank(),
+                           legend.key = element_rect(fill = NA, size = 7, color = NA),
+                           legend.background = element_rect(fill = 'white'),
+                           legend.text = element_text(size = 14),
+                           legend.title = element_text(size = 14))
 
 
-                     
+ggsave("partnership_orgs_label_col.png", plot = last_plot(), width = 250, height = 150, units = "mm", dpi = 400)
+
+bar
+
